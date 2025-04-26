@@ -16,6 +16,11 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+vendor/
+.DS_Store
+engine
+bin/
+tmp_app/
 
 # Go workspace file
 go.work
@@ -23,3 +28,4 @@ go.work.sum
 
 # env file
 .env
+.idea
