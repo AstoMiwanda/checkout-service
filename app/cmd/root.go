@@ -6,7 +6,6 @@ import (
 	"context"
 	"fmt"
 	"gorm.io/gorm"
-	"net/http"
 	"os"
 	"time"
 
@@ -22,7 +21,6 @@ var (
 		Short: "Start Checkout Service",
 	}
 	databaseConn *gorm.DB
-	httpClient   *http.Client
 
 	rootConfig     config.Root
 	productService *usecase.ProductService
@@ -33,7 +31,6 @@ func init() {
 	cobra.OnInitialize(func() {
 		initConfigReader()
 		initPostgresDB(rootConfig.Postgres)
-		initHTTPClient()
 
 		initApp()
 	})
@@ -43,10 +40,6 @@ func initConfigReader() {
 	rootConfig = config.Load(EnvFilePath)
 	logrus.Info("config loaded app: ", rootConfig.App.ServiceName)
 	logrus.Info("Postgres loaded :", rootConfig.Postgres.Host)
-}
-
-func initHTTPClient() {
-	httpClient = http.DefaultClient // TODO: add timeout and other configurations
 }
 
 func initPostgresDB(conf config.Postgres) {

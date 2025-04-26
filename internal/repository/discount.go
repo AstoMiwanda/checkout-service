@@ -29,6 +29,9 @@ func (r discountRepository) GetDiscountRuleByProduct(ctx context.Context, produc
 		Model(&model.DiscountRule{}).
 		Where(&model.DiscountRule{ProductID: productId}).
 		Scan(&discountRule).Error
+	if err != nil {
+		return nil, fmt.Errorf("failed to get discount detail: %w", err)
+	}
 
 	err = r.db.WithContext(ctx).
 		Model(&model.DiscountRule{}).

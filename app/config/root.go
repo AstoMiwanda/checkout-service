@@ -33,10 +33,6 @@ func mustLoad(prefix string, spec interface{}) {
 	}
 }
 
-func mayLoad(prefix string, spec interface{}) {
-	_ = envconfig.Process(prefix, spec)
-}
-
 func Getenv(key string) (fallback string) {
 	var value string
 	if key == "" {
