@@ -1,0 +1,32 @@
+version: "3.7"
+services:
+  web:
+    image: checkout-service
+    container_name: checkout-service
+    ports:
+      - 9090:9090
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:17.4-alpine
+    ports: [5432:5432]
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_DB: ${POSTGRES_DATABASE:-checkout}
+    restart: on-failure
+    networks: ["checkout"]
+    command: postgres -c listen_addresses='*'
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pg_test_data: {}
+
+networks:
+  checkout:
+    driver: bridge

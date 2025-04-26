@@ -1,0 +1,98 @@
+openapi: 3.0.0
+info:
+  title: checkout-service
+  version: 1.0.0
+servers:
+  - url: http://{{host}}
+tags:
+  - name: Product
+  - name: Order
+paths:
+  /api/v1/products:
+    post:
+      tags:
+        - Product
+      summary: Create Product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                sku: '234234'
+                name: RaspBerry Pi B
+                price: 30
+                isActive: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    get:
+      tags:
+        - Product
+      summary: Get Product List
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/products/20690b72-521e-4a07-aa08-d3b3fbf0201a:
+    get:
+      tags:
+        - Product
+      summary: Get Product Detail
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/products/20690b72-521e-4a07-aa08-d3b3fbf0201d:
+    put:
+      tags:
+        - Product
+      summary: Update Product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Jam 2
+                price: 25002
+                isActive: false
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/products/254f1091-db8d-4da5-979d-9105dd06ff38:
+    delete:
+      tags:
+        - Product
+      summary: Delete Product
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/orders:
+    post:
+      tags:
+        - Order
+      summary: Create Order
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                customer_id: de3b9df9-5585-4ea4-91b2-746361036828
+                order_items:
+                  - product_id: 558c4bcb-71f3-4256-ac5b-89eaa4748c38
+                    qty: 3
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}

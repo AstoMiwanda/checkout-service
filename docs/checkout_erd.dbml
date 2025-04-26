@@ -1,0 +1,61 @@
+Table products {
+  id integer [pk]
+  name varchar
+  price double
+  is_active boolean
+  created_at datetime
+  updated_at datetime
+}
+
+Table stocks {
+  id integer [pk]
+  product_id integer [ref: > products.id]
+  qty integer
+  updated_at datetime
+}
+
+Table discounts {
+  id integer [pk]
+  type varchar
+  description text
+  minimum_price double
+  discount_value double
+  is_active boolean
+  valid_from datetime
+  valid_to datetime
+  created_at datetime
+}
+
+Table discount_rules {
+  id integer [pk]
+  discount_id integer [ref: > discounts.id]
+  product_id integer [ref: > products.id]
+  role varchar  // 'buy' or 'get'
+  quantity integer
+}
+
+Table customers {
+  id integer [pk]
+  name varchar
+  email varchar
+  created_at datetime
+  updated_at datetime
+}
+
+Table orders {
+  id integer [pk]
+  customer_id integer [ref: > customers.id]
+  status varchar
+  total_amount double
+  created_at datetime
+  updated_at datetime
+}
+
+Table order_details {
+  id integer [pk]
+  order_id integer [ref: > orders.id]
+  product_id integer [ref: > products.id]
+  quantity integer
+  price double
+  subtotal double
+}
