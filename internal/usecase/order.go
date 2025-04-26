@@ -72,15 +72,12 @@ func (s *OrderService) CreateOrder(ctx context.Context, req request.CreateOrderR
 			case constant.BUY:
 				totalBuy += discountRule.Quantity
 				quantityOperator = discountRule.QuantityOperator
-				break
 			case constant.GET:
 				totalGet += discountRule.Quantity
 				getProductId = discountRule.ProductID
-				break
 			case constant.DISCOUNT:
 				totalDiscount += discountRule.Quantity
 				getProductId = discountRule.ProductID
-				break
 			}
 		}
 
