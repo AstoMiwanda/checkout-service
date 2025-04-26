@@ -1,61 +1,88 @@
 Table products {
-  id integer [pk]
-  name varchar
-  price double
-  is_active boolean
-  created_at datetime
-  updated_at datetime
+  id uuid [pk]
+  sku varchar [not null]
+  name varchar [not null]
+  price double [not null]
+  is_active boolean [default: true]
+  created_at timestamp [default: `current_timestamp`]
+  updated_at timestamp
+  deleted_at timestamp
 }
 
 Table stocks {
-  id integer [pk]
-  product_id integer [ref: > products.id]
-  qty integer
-  updated_at datetime
+  id uuid [pk]
+  product_id uuid [ref: > products.id]
+  qty integer [not null]
+  updated_at timestamp
+  created_at timestamp [default: `current_timestamp`]
+  deleted_at timestamp
 }
 
 Table discounts {
-  id integer [pk]
-  type varchar
+  id uuid [pk]
+  type varchar [not null]
   description text
-  minimum_price double
   discount_value double
-  is_active boolean
-  valid_from datetime
-  valid_to datetime
-  created_at datetime
+  is_active boolean [default: true]
+  valid_from timestamp
+  valid_to timestamp
+  created_at timestamp [default: `current_timestamp`]
+  updated_at timestamp
+  deleted_at timestamp
 }
 
 Table discount_rules {
-  id integer [pk]
-  discount_id integer [ref: > discounts.id]
-  product_id integer [ref: > products.id]
-  role varchar  // 'buy' or 'get'
-  quantity integer
+  id uuid [pk]
+  discount_id uuid [ref: > discounts.id]
+  product_id uuid [ref: > products.id]
+  role varchar(20) [not null]
+  quantity integer [not null]
+  quantity_operator varchar(20) [default: 'equal']
+  created_at timestamp [default: `current_timestamp`]
+  updated_at timestamp
+  deleted_at timestamp
 }
 
 Table customers {
-  id integer [pk]
-  name varchar
-  email varchar
-  created_at datetime
-  updated_at datetime
+  id uuid [pk]
+  name varchar [not null]
+  email varchar [not null, unique]
+  created_at timestamp [default: `current_timestamp`]
+  updated_at timestamp
+  deleted_at timestamp
 }
 
 Table orders {
-  id integer [pk]
-  customer_id integer [ref: > customers.id]
-  status varchar
+  id uuid [pk]
+  customer_id uuid [ref: > customers.id]
+  status varchar(20) [default: 'pending']
   total_amount double
-  created_at datetime
-  updated_at datetime
+  total_discount double
+  total_payment double
+  created_at timestamp [default: `current_timestamp`]
+  updated_at timestamp
+  deleted_at timestamp
 }
 
 Table order_details {
-  id integer [pk]
-  order_id integer [ref: > orders.id]
-  product_id integer [ref: > products.id]
-  quantity integer
-  price double
-  subtotal double
+  id uuid [pk]
+  order_id uuid [ref: > orders.id]
+  product_id uuid [ref: > products.id]
+  quantity integer [not null]
+  price double [not null]
+  subtotal double [not null]
+  created_at timestamp [default: `current_timestamp`]
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Table order_discounts {
+  id uuid [pk]
+  order_id uuid [ref: > orders.id]
+  product_id uuid [ref: > products.id]
+  name text
+  qty integer
+  created_at timestamp [default: `current_timestamp`]
+  updated_at timestamp
+  deleted_at timestamp
 }
